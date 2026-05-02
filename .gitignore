@@ -1,0 +1,33 @@
+# Secrets - NIEMALS committen
+**/webhook-config.json
+**/cliq-bot-token.txt
+**/.env
+**/secrets.*
+
+# Lokale Edge-Profile
+**/edge-profile/
+
+# Logs (Box-spezifisch)
+**/logs/*.log
+**/*.log
+
+# State-Files (Box-spezifisch)
+**/state/*.json
+
+# Backups
+*.bak
+*.bak.*
+*.~*
+*~
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Build / Releases
+dist/
+build/
