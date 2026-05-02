@@ -49,6 +49,19 @@ Write-Host "  Variant: $Variant" -ForegroundColor Cyan
 Write-Host "==============================================" -ForegroundColor Cyan
 Write-Host ""
 
+# --- Transcript-Logging starten ---
+$logDir = "C:\ateam\logs"
+if (-not (Test-Path $logDir)) {
+    New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+}
+$bootstrapLog = Join-Path $logDir ("bootstrap-{0}.log" -f (Get-Date -Format "yyyyMMdd-HHmmss"))
+try {
+    Start-Transcript -Path $bootstrapLog -Append -ErrorAction SilentlyContinue | Out-Null
+    Write-Host "Log: $bootstrapLog" -ForegroundColor DarkGray
+} catch {
+    Write-Host "Hinweis: Transcript konnte nicht gestartet werden (vermutlich schon aktiv)" -ForegroundColor DarkGray
+}
+
 $tempDir = Join-Path $env:TEMP "box-bootstrap-$(Get-Random)"
 New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
 Write-Host "Temp: $tempDir" -ForegroundColor DarkGray
@@ -105,4 +118,8 @@ Write-Host "Naechste Schritte:" -ForegroundColor White
 Write-Host "  1. Print Server schliessen + neu starten"
 Write-Host "  2. Im iPad: Configure Printer erneut auswaehlen"
 Write-Host "  3. Reboot zum finalen Test"
+Write-Host ""
+Write-Host "Log dieses Laufs: $bootstrapLog" -ForegroundColor DarkGray
+
+try { Stop-Transcript -ErrorAction SilentlyContinue | Out-Null } catch {}
 exit $installerExit
